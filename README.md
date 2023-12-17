@@ -1,6 +1,6 @@
 # About
 
-This is (lighttigerXIV's ulauncher-bookmarks extension)[https://github.com/lighttigerXIV/ulauncher-bookmarks/] tweaked to copy instead of open. I've also changed the icons (they are pretty poorly done, I'm hoping to update them in the future).
+This is [lighttigerXIV's ulauncher-bookmarks extension](https://github.com/lighttigerXIV/ulauncher-bookmarks/) tweaked to copy instead of open. I've also changed the icons (they are pretty poorly done, I'm hoping to update them in the future).
 
 # How to use
 ## Adding a bookmark
