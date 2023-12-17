@@ -21,7 +21,6 @@ class Function(Enum):
 
 
 class MarksAndCopy(Extension):
-
     def __init__(self):
         super().__init__()
         self.subscribe(KeywordQueryEvent, KeywordQueryEventListener())
@@ -29,7 +28,6 @@ class MarksAndCopy(Extension):
 
 
 class KeywordQueryEventListener(EventListener):
-
     def on_event(self, event, extension):
 
         icon_setting = extension.preferences["icon"]
@@ -47,32 +45,40 @@ class KeywordQueryEventListener(EventListener):
 
             url = query[query.index("add") + 1] if len(query) > 1 else ""
 
-            return RenderResultListAction([ExtensionResultItem(
-                icon=icon,
-                name=f"Name:",
-                description=f"Url: {url}",
-                on_enter=DoNothingAction())])
+            return RenderResultListAction(
+                [
+                    ExtensionResultItem(
+                        icon=icon,
+                        name=f"Name:",
+                        description=f"Url: {url}",
+                        on_enter=DoNothingAction(),
+                    )
+                ]
+            )
 
         if "add" in query and "as" in query:
 
             url = query[query.index("add") + 1]
-            name_words = query[query.index("as") + 1: len(query)]
+            name_words = query[query.index("as") + 1 : len(query)]
             name = ""
 
             for word in name_words:
-                name = (f"{name}{word} ")
+                name = f"{name}{word} "
 
             name = name.strip()
 
-            return RenderResultListAction([ExtensionResultItem(
-                icon=icon,
-                name=f"Name: {name}",
-                description=f"Url: {url}",
-                on_enter=ExtensionCustomAction({
-                    "function": Function.ADD,
-                    "name": name,
-                    "url": url
-                }))])
+            return RenderResultListAction(
+                [
+                    ExtensionResultItem(
+                        icon=icon,
+                        name=f"Name: {name}",
+                        description=f"Url: {url}",
+                        on_enter=ExtensionCustomAction(
+                            {"function": Function.ADD, "name": name, "url": url}
+                        ),
+                    )
+                ]
+            )
 
         if "remove" in query and len(query) == 1:
 
@@ -80,48 +86,52 @@ class KeywordQueryEventListener(EventListener):
 
         if "remove" in query:
 
-            name_words = query[query.index("remove") + 1: len(query)]
+            name_words = query[query.index("remove") + 1 : len(query)]
             name = ""
 
             for word in name_words:
-                name = (f"{name}{word} ")
+                name = f"{name}{word} "
 
             name = name.strip()
 
             for bookmark in bookmarks:
                 if name in bookmark["name"].lower() or name in bookmark["url"].lower():
-                    results.append(ExtensionResultItem(
-                        icon=icon,
-                        name=f"Remove {bookmark['name']}",
-                        description=bookmark["url"],
-                        on_enter=ExtensionCustomAction({
-                            "function": Function.REMOVE,
-                            "url": bookmark["url"]
-                        })
-                    ))
+                    results.append(
+                        ExtensionResultItem(
+                            icon=icon,
+                            name=f"Remove {bookmark['name']}",
+                            description=bookmark["url"],
+                            on_enter=ExtensionCustomAction(
+                                {"function": Function.REMOVE, "url": bookmark["url"]}
+                            ),
+                        )
+                    )
 
             return RenderResultListAction(results)
 
         if len(bookmarks) == 0 or name == "":
-            results.append(ExtensionResultItem(
-                icon=icon,
-                name="Bookmark Not Found",
-                description="You did a oopsie :P",
-                on_enter=DoNothingAction()
-            ))
+            results.append(
+                ExtensionResultItem(
+                    icon=icon,
+                    name="Bookmark Not Found",
+                    description="You did a oopsie :P",
+                    on_enter=DoNothingAction(),
+                )
+            )
 
         else:
             for bookmark in bookmarks:
                 if name in bookmark["name"].lower() or name in bookmark["url"].lower():
-                    results.append(ExtensionResultItem(
-                        icon=icon,
-                        name=bookmark['name'],
-                        description=bookmark['url'],
-                        on_enter=ExtensionCustomAction({
-                            "function": Function.OPEN,
-                            "url": bookmark["url"]
-                        })
-                    ))
+                    results.append(
+                        ExtensionResultItem(
+                            icon=icon,
+                            name=bookmark["name"],
+                            description=bookmark["url"],
+                            on_enter=ExtensionCustomAction(
+                                {"function": Function.OPEN, "url": bookmark["url"]}
+                            ),
+                        )
+                    )
 
         return RenderResultListAction(results)
 
@@ -143,8 +153,7 @@ def init_settings():
 def get_bookmarks():
 
     home_path = Path.home()
-    bookmarks_path = Path(
-        f"{home_path}/.config/marks.json")
+    bookmarks_path = Path(f"{home_path}/.config/marks.json")
 
     if not bookmarks_path.exists():
 
@@ -164,7 +173,6 @@ def get_bookmarks():
 
 
 class RunCommand(EventListener):
-
     def on_event(self, event, extension):
 
         data = event.get_data()
@@ -177,10 +185,7 @@ class RunCommand(EventListener):
 
             bookmarks = get_bookmarks()
 
-            bookmarks.append({
-                "name": data["name"],
-                "url": data["url"]
-            })
+            bookmarks.append({"name": data["name"], "url": data["url"]})
 
             with open(get_bookmarks_path(), "w") as file:
                 file.write(json.dumps(bookmarks))
@@ -189,8 +194,11 @@ class RunCommand(EventListener):
 
         if function == Function.REMOVE:
 
-            bookmarks = [bookmark for bookmark in get_bookmarks()
-                         if bookmark["url"] != data["url"]]
+            bookmarks = [
+                bookmark
+                for bookmark in get_bookmarks()
+                if bookmark["url"] != data["url"]
+            ]
 
             with open(get_bookmarks_path(), "w") as file:
                 file.write(json.dumps(bookmarks))
@@ -199,10 +207,9 @@ class RunCommand(EventListener):
 
         if function == Function.OPEN:
 
-           CopyToClipboardAction(data["url"])
-
+            CopyToClipboardAction(data["url"])
             return HideWindowAction()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     MarksAndCopy().run()
