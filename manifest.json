@@ -1,0 +1,38 @@
+{
+    "required_api_version": "^2.0.0",
+    "name": "Mark and Copy",
+    "description": "Saves URLs for later and copy them to your clipboard.",
+    "developer_name": "1094",
+    "icon": "images/web.png",
+    "options": {
+        "query_debounce": 0.05
+    },
+    "preferences": [
+        {
+            "id": "keyword",
+            "type": "keyword",
+            "name": "Mark and Copy",
+            "description": "Save and copy URLs to a json file.",
+            "default_value": "u"
+        },
+        {
+            "id": "icon",
+            "type": "select",
+            "name": "Browsers",
+            "default_value": "web",
+            "options": [
+                {"text": "Tor", "value": "tor"},
+                {"text": "Mullvad", "value": "mullvad"},
+                {"text": "Firefox", "value": "firefox"},
+                {"text": "Brave", "value": "brave"},
+                {"text": "Chrome", "value": "chrome"},
+                {"text": "Chromium", "value": "chromium"},
+                {"text": "Edge", "value": "edge"},
+                {"text": "Onion", "value": "onion"},
+                {"text": "Opera", "value": "opera"},
+                {"text": "Vivaldi", "value": "vivaldi"},
+                {"text": "Web", "value": "web"}
+            ]
+        }
+    ]
+}
