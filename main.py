@@ -7,12 +7,15 @@ from ulauncher.api.shared.action.RenderResultListAction import RenderResultListA
 from ulauncher.api.shared.action.ExtensionCustomAction import ExtensionCustomAction
 from ulauncher.api.shared.action.HideWindowAction import HideWindowAction
 from ulauncher.api.shared.action.DoNothingAction import DoNothingAction
-from ulauncher.api.shared.action.CopyToClipboardAction import CopyToClipboardAction
 from enum import Enum
-
 from pathlib import Path
-import json
 
+import subprocess
+import json
+import gi
+
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk, Gdk
 
 class Function(Enum):
     ADD = 1
@@ -32,6 +35,11 @@ class KeywordQueryEventListener(EventListener):
 
         icon_setting = extension.preferences["icon"]
         icon = f"images/{icon_setting}.png"
+        
+        name = event.get_argument()
+        
+        if name is None or len(name.strip()) == 0:
+            return RenderResultListAction([])
 
         query = event.get_argument().split()
         name = event.get_argument()
@@ -207,9 +215,8 @@ class RunCommand(EventListener):
 
         if function == Function.OPEN:
 
-            CopyToClipboardAction(data["url"])
+            subprocess.run(f'echo "{data["url"]}" | wl-copy', shell=True, executable='/bin/bash')
             return HideWindowAction()
-
 
 if __name__ == "__main__":
     MarksAndCopy().run()
