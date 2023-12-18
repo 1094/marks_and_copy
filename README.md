@@ -20,3 +20,9 @@ To copy a bookmark you just need to type the following:
 
 ## Editing 
 To edit the bookmarks you need to manually edit them in their respective file. It's located in `~/.config/marks.json`
+
+
+To do:
+[ ] Only works on Wayland, add xclip subprocess for X11
+[ ] Clean up icon images
+[ ] Fix code so user set icons show up in results list.
