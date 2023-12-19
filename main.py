@@ -216,6 +216,7 @@ class RunCommand(EventListener):
         if function == Function.OPEN:
 
             subprocess.run(f'echo "{data["url"]}" | wl-copy', shell=True, executable='/bin/bash')
+            subprocess.run(f'echo "{data["url"]}" | xclip -selection clipboard'
             return HideWindowAction()
 
 if __name__ == "__main__":
