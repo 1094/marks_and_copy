@@ -12,6 +12,10 @@ from pathlib import Path
 
 import subprocess
 import json
+import gi
+
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk, Gdk
 
 class Function(Enum):
     ADD = 1
