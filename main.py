@@ -1,3 +1,4 @@
+User
 from asyncio import subprocess
 from ulauncher.api.client.Extension import Extension
 from ulauncher.api.client.EventListener import EventListener
@@ -170,12 +171,9 @@ def get_bookmarks():
     bookmarks_content = bookmarks_path.read_text()
 
     try:
-        with open(bookmarks_path, "r") as file:
-            lines = file.readlines()
-            bookmarks = [json.loads(line.strip()) for line in lines if line.strip()]
+        bookmarks = json.loads(bookmarks_content)
         return bookmarks
-    except json.JSONDecodeError:
-        print("Error decoding JSON. Returning an empty list.")
+    except:
         return []
 
 
@@ -195,8 +193,7 @@ class RunCommand(EventListener):
             bookmarks.append({"name": data["name"], "url": data["url"]})
 
             with open(get_bookmarks_path(), "w") as file:
-                for bookmark in bookmarks:
-                    file.write(json.dumps(bookmark) + "\n")
+                file.write(json.dumps(bookmarks))
 
             return HideWindowAction()
 
