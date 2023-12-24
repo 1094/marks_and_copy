@@ -174,9 +174,12 @@ def get_bookmarks():
     bookmarks_content = bookmarks_path.read_text()
 
     try:
-        bookmarks = json.loads(bookmarks_content)
+        with open(bookmarks_path, "r") as file:
+            lines = file.readlines()
+            bookmarks = [json.loads(line.strip()) for line in lines if line.strip()]
         return bookmarks
-    except:
+    except json.JSONDecodeError:
+        print("Error decoding JSON. Returning an empty list.")
         return []
 
 
@@ -196,7 +199,8 @@ class RunCommand(EventListener):
             bookmarks.append({"name": data["name"], "url": data["url"]})
 
             with open(get_bookmarks_path(), "w") as file:
-                file.write(json.dumps(bookmarks))
+                for bookmark in bookmarks:
+                    file.write(json.dumps(bookmark) + "\n")
 
             return HideWindowAction()
 
