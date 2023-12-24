@@ -1,28 +1,17 @@
 # About
 
-This is [lighttigerXIV's ulauncher-bookmarks extension](https://github.com/lighttigerXIV/ulauncher-bookmarks/) tweaked to copy instead of open. I've also changed the icons (they are pretty poorly done, I'm hoping to update them in the future).
+The goal of this is to take [lighttigerXIV's ulauncher-bookmarks extension](https://github.com/lighttigerXIV/ulauncher-bookmarks/) and tweak it so it copies the URL to your clipboard by default. I really like the extension, but Gnome won't let me set Tor as default and Mullvad as the same "one instance" limit I haven't been able to work around.
 
-# How to use
-## Adding a bookmark
-To add a bookmark you just need to type in the following order:
+This has only been hard because CopyToClipboardAction doesn't seem to work. I don't have a system right now to check if the `xclip` does, but the `wl-copy` does.
 
-`{keyword} add {url} as {name}`
-
-## Removing a bookmark
-To remove a bookmark you just need to type in the following order:
-
-`{keyword} remove {name}`
-
-## Copy a bookmark
-To copy a bookmark you just need to type the following:
-
-`{keyword} {name}`
-
-## Editing 
-To edit the bookmarks you need to manually edit them in their respective file. It's located in `~/.config/marks.json`
+But, as I have been playing with (I have gotten it to work at one point), I've found other things I'd like to tweak:
 
 
-## To do:
-[X] Only works on Wayland, add xclip subprocess for X11.  
-[] Clean up icon images.  
-[] Fix code so user set icons show up in results list.  
+- [ ] let user decide the name and location of the URL list
+- [ ] saves each URL to a new line of the file, for easier editing
+- [ ] use browser icons (probably line art cuz I can't draw)
+- [ ] change commands to "a", "d", and "o." using default for copy.
+
+
+That's all for now.   
+I don't know python or ulauncher so this'll probably take a bit.

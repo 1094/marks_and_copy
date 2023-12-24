@@ -12,10 +12,6 @@ from pathlib import Path
 
 import subprocess
 import json
-import gi
-
-gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk, Gdk
 
 class Function(Enum):
     ADD = 1
@@ -216,7 +212,7 @@ class RunCommand(EventListener):
         if function == Function.OPEN:
 
             subprocess.run(f'echo "{data["url"]}" | wl-copy', shell=True, executable='/bin/bash')
-            subprocess.run(f'echo "{data["url"]}" | xclip -selection clipboard'
+            subprocess.run(f'echo "{data["url"]}" | xclip -selection clipboard', shell=True, executable='/bin/bash')
             return HideWindowAction()
 
 if __name__ == "__main__":
